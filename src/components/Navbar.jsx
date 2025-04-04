@@ -13,11 +13,12 @@ const Navbar = () => {
                     to="/" 
                     className='text-3xl font-extrabold mx-10 shadow-white hover:shadow-md flex flex-row '>
                     <GiArtificialIntelligence className='text-5xl'/>
-                        <h1 className='text-4xl my-1'>AI</h1>
                 </Link>
-                <Link to="/history" className="cursor-pointer " >History</Link>
+                <div className='flex flex-row'>
+                <Link to="/history" className="cursor-pointer my-3" >History</Link>
                 <div className='w-10 h-10 mx-10 border-2 border-white rounded-full shadow-white hover:shadow-md'>
                     <img />
+                </div>
                 </div>
         </div>
     )

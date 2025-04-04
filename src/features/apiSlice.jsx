@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const baseUrl = "https://modelslab.com/api/v6/realtime/";
 
 // Store your API key in a constant or environment variable
-const apiKey = "aGUzNYitrtyHFUwVSFqGfbyFkEb5gmOUYG8nqqirqipcLGnW6QaiT3iCtlE3";
+const apiKey = import.meta.env.VITE_API_KEY;
 
 export const apiSlice = createApi({
   reducerPath: "imageApi",

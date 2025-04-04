@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { BsImage } from "react-icons/bs";
 import { useGenerateImageMutation } from '../features/apiSlice';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css'; // optional for blur effect
+
 
 const Content = () => {
 
@@ -39,9 +42,10 @@ const Content = () => {
                 <div className='w-234 h-142 bg-black/30 rounded-2xl flex flex-row'>
                     <div className='w-180 h-140 rounded-2xl my-2 mx-2 bg-black/20 flex justify-center items-center'>
                         {imageUrl ? (
-                            <LazylaodImage 
+                            <LazyLoadImage 
                                 src={imageUrl}
                                 alt='Generated'
+                                effect='blur'
                                 className='max-w-full max-h-full rounded-2xl'
                             />
                         ) : <BsImage className='text-8xl'/> }

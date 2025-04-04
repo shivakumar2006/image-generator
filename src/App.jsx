@@ -4,17 +4,24 @@ import "./App.css";
 import Navbar from './components/Navbar';
 import History from './components/History';
 import Footer from './components/Footer';
-import { Routes, Route } from 'react-router-dom';
+import Authentication from './components/Authentication';
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 const App = () => {
+
+    const location = useLocation(); 
+
+    const hideLayout = location.pathname === "/"; // authentication page
+
   return (
     <>
-        <Navbar />
+        { !hideLayout && <Navbar /> }
             <Routes>
-                <Route path='/' element={<Content />} />
+                <Route path='/' element={<Authentication />} />
+                <Route path='/content' element={<Content />} />
                 <Route path='/history' element={<History />} />
             </Routes>
-        <Footer />
+        { !hideLayout && <Footer /> }
     </>
   )
 }
