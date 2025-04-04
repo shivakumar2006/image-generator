@@ -1,39 +1,40 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const baseUrl = "https://api.deepai.org/api/";
+const baseUrl = "https://modelslab.com/api/v6/realtime/";
+
+// Store your API key in a constant or environment variable
+const apiKey = "aGUzNYitrtyHFUwVSFqGfbyFkEb5gmOUYG8nqqirqipcLGnW6QaiT3iCtlE3";
 
 export const apiSlice = createApi({
-    reducerPath: "imageApi",
-    baseUrl: fetchBaseQuery({baseUrl}),
-    endpoints: (builder) => ({
-        generateImage: builder.mutation({ // we give a input so we use mutation otherwise we use only query...
-            //send a post request with a text or file 
-            query: (textOrFile) => {
-                //Check if its a string or a file... 
-                if(typeof textOrFile === "string") {
-                    return {
-                        url: "text2img",
-                        method: "POST",
-                        headers: {
-                            "content-type": "application/json",
-                            "api-key": "939d3a7e-9f77-4275-8241-5118f6c42318",
-                        },
-                        body: JSON.stringify({ text: textOrFile }), // pass the text directly
-                        }
-                } else {
-                    return {
-                        url: "text2img",
-                        method: "POST",
-                        headers: {
-                            "content-type": "application/json",
-                            "api-key": "939d3a7e-9f77-4275-8241-5118f6c42318",
-                        },
-                        body: textOrFile, // if it's a file pass it as a form data...
-                    }
-                }
-            }
-        })
-    })
-})
+  reducerPath: "imageApi",
+  baseQuery: fetchBaseQuery({ baseUrl }),
+  endpoints: (builder) => ({
+    generateImage: builder.mutation({
+      query: (prompt) => {
+        return {
+          url: `text2img?key=${apiKey}`, // Pass API key as query param
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt }), // Use 'prompt' instead of 'text'
+        };
+      },
+    }),
+  }),
+});
 
-export const { useGenerateImageMutation } = apiSlice; 
+export const { useGenerateImageMutation } = apiSlice;
+
+
+
+
+
+
+
+
+
+
+
+
+// aGUzNYitrtyHFUwVSFqGfbyFkEb5gmOUYG8nqqirqipcLGnW6QaiT3iCtlE3
