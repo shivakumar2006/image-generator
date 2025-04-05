@@ -1,8 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AuthButtonWithProvider from '../auth/AuthButtonWithProvider';
-import {FaGoogle, FaGithub} from "react-icons/fa"
+import {FaGoogle, FaGithub} from "react-icons/fa";
+import { supabase } from '../supabase';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../features/authSlice';
 
 const Authentication = () => {
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const getUser = async () => {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            if (error) {
+                console.error("Error getting user:", error);
+                return;
+            }
+
+            if (user) {
+                // Dispatch user data to Redux store if user is logged in
+                dispatch(setUser(user));
+            }
+        };
+        getUser();
+    }, [dispatch]);
+
+    useEffect(() => {
+        const getUser = async () => {
+            const { data: { user }} = await supabase.auth.getUser();
+            console.log("logged in user : ", user);
+        };
+
+        getUser();
+    }, [])
+
   return (
     <div  className='w-screen h-screen text-white flex flex-col justify-center items-center'
     style={{
