@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 const App = () => {
 
     const navigate = useNavigate();
+    const location = useLocation(); 
     
     // check if the user is authenticate and redirect to the content page...
     useEffect(() => {
@@ -25,8 +26,6 @@ const App = () => {
         }
             checkSession();
     }, [navigate, location])
-
-    const location = useLocation(); 
 
     const hideLayout = location.pathname === "/"; // authentication page
 
