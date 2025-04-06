@@ -19,12 +19,12 @@ const App = () => {
         const checkSession = async () => {
             const { data } = await supabase.auth.getSession();
             const session = data?.session; // use optional changing to prevent errors
-            if(session) {
+            if(session && location.pathname === "/") {
                 navigate("/content");
             }
         }
             checkSession();
-    }, [navigate])
+    }, [navigate, location])
 
     const location = useLocation(); 
 
