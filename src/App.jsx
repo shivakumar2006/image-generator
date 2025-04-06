@@ -16,11 +16,14 @@ const App = () => {
     
     // check if the user is authenticate and redirect to the content page...
     useEffect(() => {
-        const { data } = supabase.auth.getSession();
-        const session = data?.session; // use optional changing to prevent errors
-        if(session) {
-            navigate("/content");
+        const checkSession = async () => {
+            const { data } = await supabase.auth.getSession();
+            const session = data?.session; // use optional changing to prevent errors
+            if(session) {
+                navigate("/content");
+            }
         }
+            checkSession();
     }, [navigate])
 
     const location = useLocation(); 
