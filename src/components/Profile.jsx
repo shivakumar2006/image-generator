@@ -1,19 +1,35 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabase';
+import { logOutUser } from '../features/authSlice';
 
 const Profile = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
+    const userMeta = user?.user_metadata || {};
     const profilePicture = user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
+    const displayName = userMeta.name || userMeta.full_name || userMeta.user_name || "No name found";
+
+    console.log(user.user_metadata.iss);
+
 
     const handleClick = async () => {
-        await supabase.auth.signOut(); //log out the user...
+        // Log out from Supabase
+        await supabase.auth.signOut();
+    
+        // Get the current session (should be null after logout)
+        const { data: session } = await supabase.auth.getSession();
+        console.log('Session after logout:', session); // This should be null if the session was cleared
+    
+        // Dispatch logOutUser to clear Redux state
+        dispatch(logOutUser());
+    
+        // Redirect to home or login page
         navigate("/");
-    }
-
+    };
   return (
     <div className='w-screen h-screen flex justify-center items-center'
     style={{
@@ -37,27 +53,13 @@ const Profile = () => {
             <div className='w-160 h-60 flex text-white flex-col items-center gap-8'>
                 <div className='w-160 h-20 hover:bg-black/30 flex flex-col justify-center items-center'>
                     <div className='text-6xl'>
-                        <p>{user?.user_metadata?.full_name}</p>
+                        {/* <p>{user?.user_metadata?.full_name || user?.user.metadata?.user_name}</p> */}
+                        <p>{displayName}</p>
                     </div>
                 </div>
                 <div className='w-160 h-20 hover:bg-black/30 flex flex-col justify-center items-center'>
                     <div className='text-2xl'>
                         <p>{user?.user_metadata?.email}</p>
-                    </div>
-                </div>
-                <div className='w-160 h-20 hover:bg-black/30 flex flex-col justify-center items-center'>
-                    <div className='text-1xl'>
-                    <p><strong>Last Sign-in:</strong> {new Date(user?.last_sign_in_at).toLocaleString()}</p>
-                    </div>
-                </div>
-                <div className='w-160 h-20 hover:bg-black/30 flex flex-col justify-center items-center'>
-                    <div className='text-1xl'>
-                    <p><strong>Account Created:</strong> {new Date(user?.created_at).toLocaleString()}</p>
-                    </div>
-                </div>
-                <div className='w-160 h-20 hover:bg-black/30 flex flex-col justify-center items-center'>
-                    <div className='text-1xl'>
-                    <p><strong>Provider:</strong> {user?.app_metadata?.providers?.join(', ')}</p>
                     </div>
                 </div>
             </div>

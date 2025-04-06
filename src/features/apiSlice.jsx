@@ -20,6 +20,10 @@ export const apiSlice = createApi({
           body: JSON.stringify({ prompt }), // Use 'prompt' instead of 'text'
         };
       },
+        transformResponse: (response) => {
+            console.log("response : ", response);
+                return response?.output?.[0] || null;
+        }
     }),
   }),
 });
@@ -32,9 +36,3 @@ export const { useGenerateImageMutation } = apiSlice;
 
 
 
-
-
-
-
-
-// aGUzNYitrtyHFUwVSFqGfbyFkEb5gmOUYG8nqqirqipcLGnW6QaiT3iCtlE3

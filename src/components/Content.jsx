@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BsImage } from "react-icons/bs";
 import { useGenerateImageMutation } from '../features/apiSlice';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -18,12 +18,29 @@ const Content = () => {
         try {
             const response = await generateImage(prompt).unwrap(); /// api call..
             console.log("API Response: ", response); // Debugging step
-            setImageUrl(response.output[0]); // store image url...
+
+            // Check if the response has the `output` field and has at least one image URL
+            if(response) {
+                const imageUrl = response
+                setImageUrl(imageUrl);
+                sessionStorage.setItem("generatedImage", imageUrl);
+
+            } else {
+                alert(" Failed to generate image, please try again ! ");
+            }
+            
         } catch (error) {
             console.error("Error in generating image ! ", error);
             alert(" Failed to generate image, please try again ! ");
         }
     }
+
+    useEffect(() => {
+        const storedImage = sessionStorage.getItem("generatedImage")
+        if(storedImage) {
+            setImageUrl(storedImage);
+        }
+    }, [])
 
     const handleSuggestionClick = (suggestion) => {
         setPrompt(suggestion);

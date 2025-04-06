@@ -20,6 +20,8 @@ const Authentication = () => {
             if (user) {
                 // Dispatch user data to Redux store if user is logged in
                 dispatch(setUser(user));
+            } else {
+                console.log("no user loggged in !");
             }
         };
         getUser();
