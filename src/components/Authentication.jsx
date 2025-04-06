@@ -8,6 +8,7 @@ import { setUser } from '../features/authSlice';
 const Authentication = () => {
   const dispatch = useDispatch();
 
+  // Get user info on component mount
   useEffect(() => {
     const getUser = async () => {
       const { data: { user }, error } = await supabase.auth.getUser();
@@ -20,20 +21,11 @@ const Authentication = () => {
         // Dispatch user data to Redux store if user is logged in
         dispatch(setUser(user));
       } else {
-        console.log("no user logged in!");
+        console.log("No user logged in!");
       }
     };
     getUser();
   }, [dispatch]);
-
-  useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      console.log("logged in user: ", user);
-    };
-
-    getUser();
-  }, []);
 
   return (
     <div
