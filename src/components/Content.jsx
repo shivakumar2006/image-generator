@@ -61,7 +61,7 @@ const Content = () => {
                                     src={imageUrl}
                                     alt="Generated"
                                     effect="blur"
-                                    className="max-w-full max-h-full rounded-full"
+                                    className="w-full h-full rounded-2xl"
                                 />
                             ) : <BsImage className="text-8xl" />}
                         </div>
